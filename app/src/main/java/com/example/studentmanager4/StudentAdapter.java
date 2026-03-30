@@ -1,5 +1,6 @@
 package com.example.studentmanager4;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ import java.util.List;
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> {
 
     private List<Student> studentList;
-    private List<Student> studentListFull; // Dùng cho tìm kiếm
+    private List<Student> studentListFull;
     private OnStudentActionListener listener;
 
     public interface OnStudentActionListener {
@@ -32,7 +33,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         this.listener = listener;
     }
 
-    // Cập nhật lại danh sách gốc khi có thay đổi (thêm/xóa/sửa)
     public void updateData(List<Student> newList) {
         this.studentList = newList;
         this.studentListFull = new ArrayList<>(newList);
@@ -49,9 +49,11 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     @Override
     public void onBindViewHolder(@NonNull StudentViewHolder holder, int position) {
         Student student = studentList.get(position);
-        holder.tvId.setText("ID: " + student.getId());
+        Context context = holder.itemView.getContext();
+        
+        holder.tvId.setText(context.getString(R.string.id_label, student.getId()));
         holder.tvName.setText(student.getName());
-        holder.tvClass.setText("Class: " + student.getClassName());
+        holder.tvClass.setText(context.getString(R.string.class_label, student.getClassName()));
         
         if (student.getName() != null && !student.getName().isEmpty()) {
             holder.tvInitial.setText(student.getName().substring(0, 1).toUpperCase());
@@ -83,7 +85,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         return studentList.size();
     }
 
-    // Tính năng tìm kiếm
     public void filter(String text) {
         studentList = new ArrayList<>();
         if (text.isEmpty()) {

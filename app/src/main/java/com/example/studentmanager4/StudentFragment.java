@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,7 @@ public class StudentFragment extends Fragment implements StudentAdapter.OnStuden
     private List<Student> studentList = new ArrayList<>();
     private FloatingActionButton fabAdd;
     private EditText etSearch;
+    private ImageButton btnClearSearch;
 
     @Nullable
     @Override
@@ -42,6 +44,7 @@ public class StudentFragment extends Fragment implements StudentAdapter.OnStuden
         recyclerView = view.findViewById(R.id.recyclerView);
         fabAdd = view.findViewById(R.id.fabAdd);
         etSearch = view.findViewById(R.id.etSearch);
+        btnClearSearch = view.findViewById(R.id.btnClearSearch);
         
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -52,19 +55,30 @@ public class StudentFragment extends Fragment implements StudentAdapter.OnStuden
 
         fabAdd.setOnClickListener(v -> showAddEditDialog(null, -1));
 
-        // Thiết lập tính năng tìm kiếm
+        // Xử lý tìm kiếm
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                studentAdapter.filter(s.toString());
+                String query = s.toString();
+                studentAdapter.filter(query);
+                
+                // Hiển thị/ẩn nút X xóa nhanh
+                if (query.isEmpty()) {
+                    btnClearSearch.setVisibility(View.GONE);
+                } else {
+                    btnClearSearch.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {}
         });
+
+        // Nút xóa nhanh nội dung tìm kiếm
+        btnClearSearch.setOnClickListener(v -> etSearch.setText(""));
     }
 
     private void showAddEditDialog(Student student, int position) {
@@ -107,7 +121,6 @@ public class StudentFragment extends Fragment implements StudentAdapter.OnStuden
             } else {
                 studentList.add(new Student(id, name, className, phone));
             }
-            // Cập nhật lại dữ liệu cho Adapter sau khi thêm/sửa
             studentAdapter.updateData(new ArrayList<>(studentList));
         });
 
@@ -138,7 +151,7 @@ public class StudentFragment extends Fragment implements StudentAdapter.OnStuden
                 .setTitle("Confirm Delete")
                 .setMessage("Are you sure you want to delete " + student.getName() + "?")
                 .setPositiveButton("Delete", (dialog, which) -> {
-                    studentList.remove(student); // Xóa theo đối tượng để tránh sai lệch index khi đang filter
+                    studentList.remove(student);
                     studentAdapter.updateData(new ArrayList<>(studentList));
                 })
                 .setNegativeButton("Cancel", null)

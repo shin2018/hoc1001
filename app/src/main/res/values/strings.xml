@@ -1,5 +1,31 @@
 <resources>
-    <string name="app_name">StudentManager4</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="app_name">Student Manager</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Student List -->
+    <string name="student_list_title">Student List</string>
+    <string name="search_hint">Search name or ID...</string>
+    <string name="add_student">Add Student</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="id_label">ID: %1$s</string>
+    <string name="class_label">Class: %1$s</string>
+
+    <!-- Login -->
+    <string name="app_title_login">QUẢN LÝ SINH VIÊN</string>
+    <string name="username_hint">Tên đăng nhập</string>
+    <string name="password_hint">Mật khẩu</string>
+    <string name="login_button">Đăng nhập</string>
+    <string name="remember_me">Ghi nhớ đăng nhập</string>
+
+    <!-- Actions & Dialogs -->
+    <string name="confirm_delete_title">Confirm Delete</string>
+    <string name="confirm_delete_message">Are you sure you want to delete %1$s?</string>
+    <string name="logout_title">Logout</string>
+    <string name="logout_confirm">Are you sure you want to logout?</string>
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+    <string name="update">Update</string>
+    <string name="add">Add</string>
+    <string name="student_details">Student Details</string>
 </resources>
